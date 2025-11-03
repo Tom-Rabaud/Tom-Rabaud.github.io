@@ -1,1 +1,208 @@
-site en construction 🦺
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tom Rabaud</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="background"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="eye-wrap" aria-hidden="true">
+      <svg id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="œil">
+        <path d="M540,371.42c-177.43,0-323.44,73.83-341.65,168.58,18.21,94.75,164.21,168.58,341.65,168.58s323.44-73.83,341.65-168.58c-18.21-94.75-164.21-168.58-341.65-168.58ZM793.2,544.57c-10.38,13.47-27.24,26.84-48.76,38.65-24.79,13.61-55.49,24.89-88.81,32.62-36.43,8.46-75.34,12.75-115.64,12.75s-79.21-4.29-115.64-12.75c-33.31-7.73-64.02-19.01-88.81-32.62-21.52-11.81-38.37-25.17-48.76-38.65-1.19-1.54-2.27-3.07-3.26-4.57.99-1.5,2.07-3.03,3.26-4.57,10.38-13.47,27.24-26.84,48.76-38.65,24.79-13.61,55.49-24.89,88.81-32.62,36.43-8.46,75.34-12.75,115.64-12.75s79.21,4.29,115.64,12.75c33.31,7.73,64.02,19.01,88.81,32.62,21.52,11.81,38.37,25.17,48.76,38.65,1.19,1.54,2.27,3.07,3.26,4.57-.99,1.5-2.07,3.03-3.26,4.57Z"
+              fill="white" stroke="black" stroke-width="3"/>
+        <circle id="pupil" cx="540" cy="540" r="84.08" fill="white"/>
+      </svg>
+    </div>
+    <h1 id="menu-toggle"><b>PORTFOLIO<br>TOM RABAUD :</b></h1>
+  </header>
+
+  <!-- texte "À propos" -->
+  <h2 id="apropos-text">
+    Je suis Tom Rabaud, j'ai 19 ans et je suis
+    <br>étudiant en deuxième année à l'ESAD d'Amiens.
+    <br>Dans l'objectif d'obtenir un DNA
+    <br>dans le domaine de l'édition et du design graphique.
+    <br>Dans ce portfolio vous retrouverez des informations
+    <br>me concernant et des projets que j'ai réalisés.
+  </h2>
+
+  <!-- texte "Contact" -->
+  <h3 id="contact-text">
+    Tel : 06 27 34 80 33
+    <br>Mail : Rabaudtom70@gmail.com
+    <br>Social : Grash.310
+  </h3>
+
+<!-- Nouveau menu en 3 cases -->
+<nav id="menu" class="menu-row">
+  <button class="menu-box half-width" id="apropos-link">A PROPOS</button>
+  <button class="menu-box half-width" id="contact-link">CONTACT</button>
+  <button class="menu-box double-width" id="open-projects">PROJETS</button>
+</nav>
+
+
+
+<!-- Panneau latéral Projets -->
+  <div id="projects-panel" class="projects-panel">
+    <div class="panel-content">
+      <button id="close-projects" class="close-btn">×</button>
+      <h2>Projets</h2>
+      <ul>
+        <li class="project-image">
+          <img src="img/covers.jpg" alt="Projet Covers" class="parallax-image">
+        </li>
+        <li class="project-image">
+          <img src="img/sorayama.jpg" alt="Projet Sorayama" class="parallax-image">
+        </li>
+        <li class="project-image">
+          <img src="img/ft88.jpg" alt="Projet ft88" class="parallax-image">
+        </li>
+        <li class="project-image">
+          <img src="img/openatelie.jpg" alt="Projet openatelie" class="parallax-image">
+        </li>
+        <li>Projet 5 :</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <!-- SCRIPTS -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+    const aproposText = document.getElementById("apropos-text");
+    const contactText = document.getElementById("contact-text");
+
+    // --- ouvrir/fermer menu principal
+    if (toggle && menu) {
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        const isOpen = menu.classList.toggle("open");
+        if (!isOpen) {
+          // ferme tous les sous-menus quand on ferme le menu principal
+          document.querySelectorAll(".submenu-parent.open")
+            .forEach(n => n.classList.remove("open"));
+        }
+      });
+    }
+
+    // --- Sous-menu Projets (toggle au clic)
+    document.querySelectorAll(".submenu-parent > a").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const parentLi = e.target.closest(".submenu-parent");
+        parentLi.classList.toggle("open");
+      });
+    });
+
+    // --- À propos
+    document.getElementById("apropos-link").addEventListener("click", (e) => {
+      e.preventDefault();
+      aproposText.classList.toggle("show");
+    });
+
+    // --- Contact
+    document.getElementById("contact-link").addEventListener("click", (e) => {
+      e.preventDefault();
+      contactText.classList.toggle("show");
+    });
+
+    // --- Fermeture si clic en dehors du menu
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#menu") && !e.target.closest("#menu-toggle")) {
+        menu.classList.remove("open");
+        document.querySelectorAll(".submenu-parent.open")
+          .forEach(n => n.classList.remove("open"));
+      }
+    });
+
+    // --- Animation pupille ---
+    const svgEye = document.getElementById("eye");
+    const pupil = document.getElementById("pupil");
+    if (svgEye && pupil) {
+      const centerX = 540, centerY = 540, maxDist = 40;
+      let targetX = centerX, targetY = centerY;
+      let currentX = centerX, currentY = centerY;
+      const lerp = 0.12;
+
+      window.addEventListener("mousemove", (e) => {
+        const rect = svgEye.getBoundingClientRect();
+        const x = e.clientX - (rect.left + rect.width / 2);
+        const y = e.clientY - (rect.top + rect.height / 2);
+        const dist = Math.hypot(x, y);
+        if (dist > 0) {
+          const clamped = Math.min(dist, maxDist);
+          targetX = centerX + (x / dist) * clamped;
+          targetY = centerY + (y / dist) * clamped;
+        } else {
+          targetX = centerX; targetY = centerY;
+        }
+      }, { passive: true });
+
+      window.addEventListener("mouseleave", () => {
+        targetX = centerX; targetY = centerY;
+      });
+
+      function animatePupil() {
+        currentX += (targetX - currentX) * lerp;
+        currentY += (targetY - currentY) * lerp;
+        pupil.setAttribute("cx", currentX);
+        pupil.setAttribute("cy", currentY);
+        requestAnimationFrame(animatePupil);
+      }
+      requestAnimationFrame(animatePupil);
+    }
+  });
+
+// === panneau projets ===
+const openProjects = document.getElementById("open-projects");
+const closeProjects = document.getElementById("close-projects");
+const projectsPanel = document.getElementById("projects-panel");
+
+if (openProjects && closeProjects && projectsPanel) {
+  openProjects.addEventListener("click", (e) => {
+    e.preventDefault();
+    projectsPanel.classList.toggle("open"); // ✅ toggle au lieu de add
+  });
+
+  closeProjects.addEventListener("click", () => {
+    projectsPanel.classList.remove("open");
+  });
+}
+
+
+
+
+ // === Parallaxe + lumière sur images ===
+    document.querySelectorAll(".parallax-image").forEach(img => {
+      img.addEventListener("mousemove", (e) => {
+        const rect = img.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 25;
+        const rotateY = (centerX - x) / 25;
+        img.style.transform = `scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        img.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2}px 30px rgba(0,0,0,0.35)`;
+        img.style.filter = `brightness(1.1) contrast(1.05)`;
+      });
+
+      img.addEventListener("mouseleave", () => {
+        img.style.transform = "";
+        img.style.boxShadow = "";
+        img.style.filter = "";
+  });
+});
+
+
+</script>
+</body>
+</html>

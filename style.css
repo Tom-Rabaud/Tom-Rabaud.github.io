@@ -1,0 +1,474 @@
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* reste derrière le texte */
+}
+
+body { background-color: transparent; }
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+img {
+
+}
+
+h1 {
+    position: relative;
+    margin-top: 40px; /* 40px sous le haut de la page */
+    color: rgb(0, 0, 0);
+    font-size: 50px;
+    font-family: 'Arial Narrow bold', sans-serif;
+    text-align: start;
+    transition: transform 0.2s ease; /* animation fluide */
+}
+
+h1:hover {
+    transform: translateX(5px); /* décale de 5px à droite */
+}
+
+/* Bande noire en haut */
+.header {
+    position: fixed;   /* reste collée en haut */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;      /* hauteur de la bande noire */
+    background: black;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    z-index: 1000;
+}
+
+/* Titre blanc par-dessus */
+.header h1 {
+    margin: 0;
+    color: white;   /* texte blanc */
+    font-size: 50px;
+    font-family: 'Arial Narrow bold', sans-serif;
+    transition: transform 0.2s ease;
+    cursor: pointer; /* indique que c’est cliquable pour le menu */
+}
+
+/* effet de décalage sur hover */
+.header h1:hover {
+    transform: translateX(5px);
+}
+
+
+/* Style du menu caché */
+/* menu (mettre overflow: visible pour que le sous-menu ne soit pas coupé) */
+/* === Nouveau menu en 4 cases === */
+
+
+.menu-box {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Arial Narrow bold', sans-serif;
+  font-size: 24px;
+  padding: 40px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.menu-box:hover {
+  background-color: white;
+  color: black;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* Responsive : 2x2 sur mobile */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 90%;
+  }
+
+  .menu-box {
+    font-size: 18px;
+    padding: 30px 0;
+  }
+}
+
+
+
+/* décalage progressif */
+.menu.open li:nth-child(1) { transition-delay: 0.1s; }
+.menu.open li:nth-child(2) { transition-delay: 0.2s; }
+.menu.open li:nth-child(3) { transition-delay: 0.3s; }
+.menu.open li:nth-child(4) { transition-delay: 0.4s; }
+
+
+/* (Garde tout le reste de ton CSS tel quel) */
+
+/* Assure le positionnement relatif du parent pour que .submenu absolute se repère sur le li */
+.submenu-parent { position: relative; }
+
+/* Donne un z-index au menu et au sous-menu pour qu'ils restent au-dessus */
+.menu { z-index: 1000; }
+.submenu { z-index: 1010; }
+/* ✅ Sous-menu corrigé */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #111;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 180px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 1010;
+}
+
+.submenu-parent.open .submenu {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+.submenu li {
+  margin: 8px 0;
+}
+
+.submenu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.submenu a:hover {
+  color: #aaa;
+}
+
+h2 {
+    position: relative;
+    top: 300px; /* position de base (header 80px + menu 10px + marge) */
+    margin-top: 10px; /* espace sous le menu */
+    padding: 20px;
+    font-size: 24px;
+    font-family: 'Arial Narrow bold', sans-serif;
+    color: #000;
+    text-align: start;
+
+    /* caché par défaut avec animation fluide */
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* quand actif */
+h2.show {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px; /* assez grand pour contenir ton texte */
+}
+
+h3 {
+  position: relative;
+  top: 300px;
+  margin-top: 10px;
+  padding: 20px;
+  font-size: 24px;
+  font-family: 'Arial Narrow bold', sans-serif;
+  color: #000;
+  text-align: start;
+
+  /* caché par défaut */
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+h3.show {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 500px;
+}
+
+.eye-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* centre dans le header */
+  width: 220px;  /* taille de l’œil */
+  height: auto;
+  pointer-events: none; /* l’œil n’empêche pas de cliquer sur le titre/menu */
+}
+
+.eye-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.projects-panel {
+  position: fixed;
+  top: 50%; /* centré verticalement */
+  left: 50%; /* centré horizontalement */
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 80%;
+  height: 80vh;
+  border: none; /* ✅ pas de bordure noire */
+  border-radius: 0;
+  color: #000;
+  box-sizing: border-box;
+  padding: 60px 40px;
+  overflow-y: auto; /* le contenu peut défiler */
+  overflow-x: hidden;
+  transition: all 0.5s ease;
+  z-index: 800;
+  opacity: 0;
+  pointer-events: none;
+  perspective: 1000px;
+}
+
+/* quand ouvert */
+.projects-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* contenu du panneau */
+.projects-panel .panel-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+}
+
+.projects-panel h2 {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Images de projet */
+.project-image {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  perspective: 1000px; /* effet 3D */
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform 0.6s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* effet au survol : légère sortie de l’écran */
+.project-image img:hover {
+  transform: rotateX(8deg) rotateY(-4deg) scale(1.03);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.projects-panel {
+  scrollbar-width: none; /* Firefox */
+}
+
+.projects-panel::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
+
+
+/* bouton de fermeture */
+.close-btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+.projects-panel h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-family: inherit; /* hérite de .projects-panel */
+}
+
+.projects-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.projects-panel li {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 20px 0;
+  font-family: inherit; /* hérite de .projects-panel */
+}
+
+/* bouton de fermeture */
+.close-btn {
+  position: absolute;
+  top: 70px;
+  right: 15px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  transition: transform 0.2s ease; /* animation fluide */
+}
+
+.close-btn:hover {
+  transform: scale(1.2); /* grossit légèrement */
+}
+
+/* === Image de projet dans le panneau === */
+.project-image {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.1s ease, box-shadow 0.0s ease;
+  will-change: transform, box-shadow; /* optimise les perfs */
+}
+
+/* ✅ Nouvel effet au survol : relief 3D */
+.project-image img:hover {
+  transform: scale(1.05) translateY(-5px); /* léger zoom + sortie de 5px */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); /* ombre douce portée */
+}
+
+/* === Image du panneau Projets (effet 3D et lumière) === */
+.project-image {
+  margin-bottom: 30px;
+  text-align: center;
+  perspective: 1000px; /* nécessaire pour l’effet 3D */
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0,3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  will-change: transform, box-shadow, filter;
+  box-shadow: 0 10 25 rgba(0,0,0,0.25); /* sans ombre au repos */
+}
+
+/* ✨ effet au survol : légère sortie + lumière */
+.project-image img:hover {
+  transform: scale(1.05) translateY(-5px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.05) contrast(1.05);
+}
+
+#bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* remplit tout l’écran */
+  opacity: 0; /* invisible au départ */
+  transition: opacity 0.6s ease;
+  z-index: -1; /* derrière tout le reste */
+  pointer-events: none; /* ne bloque pas les clics */
+}
+
+#bg-video.show {
+  opacity: 1; /* devient visible */
+}
+
+/* === Nouveau menu en 3 cases === */
+.menu-row {
+  position: fixed;
+  top: 120px; /* juste sous le header */
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 120px;
+  margin: 0;
+  padding: 0;
+  z-index: 900;
+}
+
+.menu-box {
+  background-color: white;
+  color: black;
+  border: 3px solid black;
+  border-right: none;
+  border-radius: 0;
+  font-family: 'Arial Narrow bold', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  box-shadow: none;
+  transform: none; /* ne bouge pas */
+}
+
+/* Largeur par type */
+.half-width {
+  flex: 1; /* 25 % chacune (2 × 25 % = 50 %) */
+}
+
+.double-width {
+  flex: 2; /* 50 % de la largeur */
+}
+
+/* Bordure à droite sur la dernière case */
+.menu-box:last-child {
+  border-right: 1px solid black;
+}
+
+/* Effet au survol */
+.menu-box:hover {
+  background-color: black;
+  color: white;
+  transform: none; /* empêche tout déplacement */
+  box-shadow: none; /* pas d'ombre au survol */
+}
+
+/* === Responsive : les trois cases empilées sur mobile === */
+@media (max-width: 768px) {
+  .menu-row {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .menu-box {
+    flex: 1 1 100%;
+    height: 100px;
+    font-size: 22px;
+  }
+}
